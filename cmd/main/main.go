@@ -8,17 +8,23 @@ import (
 
 	"WB/internal/infrastructure/database/postgres/database"
 	"WB/internal/infrastructure/database/redis"
-	"WB/internal/infrastructure/kafka"
-	"WB/internal/infrastructure/kafka/consumer"
+
 	"WB/internal/middleware"
 	"WB/internal/order/delivery"
 	serviceOrder "WB/internal/order/service"
 	storageOrder "WB/internal/order/storage/database"
 	"WB/internal/routes"
+	"github.com/joho/godotenv"
 	"go.uber.org/zap"
 )
 
 func main() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Println("Error loading .env file")
+		log.Println("Error is-----------------------", err)
+	}
+
 	zapLogger, err := zap.NewProduction()
 	if err != nil {
 		log.Fatalf("error in logger initialization: %v", err)
@@ -58,31 +64,12 @@ func main() {
 		}
 	}()
 
-	cfg, err := kafka.NewConfig()
-	if err != nil {
-		logger.Fatalf("error in kafka config init: %v", err)
-	}
-	defer func() {
-		err = cfg.Close()
-		if err != nil {
-			logger.Errorf("error in closing sync kafka producer: %v", err)
-		}
-	}()
-
 	stOrder := storageOrder.New(db, redisConn, logger)
-	svOrder := serviceOrder.New(stOrder, cfg.Producer)
+	svOrder := serviceOrder.New(stOrder)
 	d := delivery.New(svOrder, logger)
 
 	mw := middleware.New(logger)
 	router := routes.GetRouter(d, mw)
-
-	//кафка
-	go func() {
-		err = consumer.Run(ctx, cfg, stOrder, logger)
-		if err != nil {
-			logger.Errorf("error in consumer running")
-		}
-	}()
 
 	port := os.Getenv("APP_PORT")
 	addr := ":" + port

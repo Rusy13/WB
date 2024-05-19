@@ -19,9 +19,8 @@ type OrderServiceApp struct {
 	logger  *zap.Logger
 }
 
-func New(storage storage.OrderStorage, logger *zap.Logger) *OrderServiceApp {
+func New(storage storage.OrderStorage) *OrderServiceApp {
 	return &OrderServiceApp{
 		storage: storage,
-		logger:  logger,
 	}
 }
