@@ -1,9 +1,0 @@
-/.idea
-/bin
-/vendor
-/vendor.pb
-/vendor.protogen
-.DS_STORE
-.DS_Store
-/.vscode
-/.env
