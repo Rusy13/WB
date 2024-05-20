@@ -2,6 +2,7 @@ package dto
 
 import (
 	"WB/internal/order/model"
+	"fmt"
 	"github.com/asaskevich/govalidator"
 	"time"
 )
@@ -54,6 +55,9 @@ type ItemDTO struct {
 
 func (a *AddOrderDTO) Validate() error {
 	_, err := govalidator.ValidateStruct(a)
+	if err != nil {
+		fmt.Printf("Validation errors: %v\n", err)
+	}
 	return err
 }
 

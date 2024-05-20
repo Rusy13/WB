@@ -11,7 +11,7 @@ import (
 
 type OrderService interface {
 	AddOrder(ctx context.Context, order model.Order) (*model.Order, error)
-	GetUserBanner(ctx context.Context, orderID string) (*dto.OrderFromCache, error)
+	GetUserOrder(ctx context.Context, orderID string) (*dto.OrderFromCache, error)
 }
 
 type OrderServiceApp struct {

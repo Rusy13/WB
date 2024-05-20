@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 	"net/http"
-	"os"
+	//"os"
 
 	"WB/internal/infrastructure/database/postgres/database"
 	"WB/internal/infrastructure/database/redis"
@@ -71,7 +71,8 @@ func main() {
 	mw := middleware.New(logger)
 	router := routes.GetRouter(d, mw)
 
-	port := os.Getenv("APP_PORT")
+	//port := os.Getenv("APP_PORT")
+	port := "8000"
 	addr := ":" + port
 	logger.Infow("starting server",
 		"type", "START",
