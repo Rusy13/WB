@@ -7,7 +7,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
-const expireTime = 5 * 60
+const expireTime = 15
 
 type OrderStorageDB struct {
 	db              database.Database

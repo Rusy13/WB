@@ -1,7 +1,9 @@
 package main
 
 import (
+	"WB/internal/infrastructure/nats"
 	"context"
+	"github.com/nats-io/stan.go"
 	"log"
 	"net/http"
 	//"os"
@@ -65,12 +67,30 @@ func main() {
 	}()
 
 	stOrder := storageOrder.New(db, redisConn, logger)
+	err = stOrder.RestoreCacheFromDB() // Вызов функции восстановления кэша из БД
+	if err != nil {
+		logger.Fatalf("error restoring cache from DB: %v", err)
+	}
 	svOrder := serviceOrder.New(stOrder)
 	d := delivery.New(svOrder, logger)
 
 	mw := middleware.New(logger)
 	router := routes.GetRouter(d, mw)
 
+	//////////////////////////////////////////////////NATS//////////////////////////////////////////////
+	natsConn, err := stan.Connect("test-cluster", "order-service", stan.NatsURL("nats://localhost:4222"))
+	if err != nil {
+		logger.Fatalf("error connecting to NATS Streaming: %v", err)
+	}
+	defer natsConn.Close()
+
+	natsHandler := nats.NewNatsHandler(natsConn, svOrder)
+	err = natsHandler.Subscribe("order-channel")
+	if err != nil {
+		logger.Fatalf("error subscribing to NATS channel: %v", err)
+	}
+	defer natsHandler.Close()
+	//////////////////////////////////////////////////NATS//////////////////////////////////////////////
 	//port := os.Getenv("APP_PORT")
 	port := "8000"
 	addr := ":" + port

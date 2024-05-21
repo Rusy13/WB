@@ -14,7 +14,7 @@ type OrderDB struct {
 	InternalSignature string
 	CustomerID        string
 	DeliveryService   string
-	ShardKey          string
+	ShardKey          string // Update this to ShardKey
 	SmID              int
 	DateCreated       time.Time
 	OofShard          string
