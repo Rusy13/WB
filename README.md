@@ -1,5 +1,5 @@
-# Примеры запросов <a name="start"></a>
-* [Запуск тестов: make integration_tests_run]
+# Запуск тестов<a name="start"></a>
+* [make integration_tests_run]
 
 # Примеры запросов <a name="examples"></a>
 
