@@ -32,7 +32,7 @@ integration_tests_run:
 	@sleep 5
 	make migration-up DB_HOST=localhost DB_USER=postgres DB_PASS=test DB_NAME=test_postgres DB_PORT=5433
 	@sleep 5
-	DB_HOST=localhost DB_USER=postgres DB_PASS=test DB_NAME=test_postgres DB_PORT=5433 KAFKA_BROKERS=127.0.0.1:8004,127.0.0.1:8005,127.0.0.1:8006 KAFKA_EVENTS_TOPIC=test EVENTS_CONSUMER_GROUP_ID=test REDIS_HOST=localhost REDIS_PORT=6380 go test -tags=integration $(CURDIR)/tests/integration_tests/...
+	DB_HOST=localhost DB_USER=postgres DB_PASS=test DB_NAME=test_postgres DB_PORT=5433 REDIS_HOST=localhost REDIS_PORT=6380 go test -tags=integration $(CURDIR)/tests/integration_tests/...
 	docker-compose -f $(CURDIR)/tests/integration_tests/docker-compose.yml down
 
 

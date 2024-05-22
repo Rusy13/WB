@@ -33,18 +33,18 @@ services:
       POSTGRES_PASSWORD: 1111
       POSTGRES_DB: WB
 
-  test-db:
-    restart: always
-    image: postgres:latest
-    ports:
-      - "5433:5432"  # Используем другой порт для тестовой базы данных
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1111
-      POSTGRES_DB: TestWB  # Имя тестовой базы данных может отличаться
-
-
-
+#  test-db:
+#    restart: always
+#    image: postgres:latest
+#    ports:
+#      - "5433:5432"  # Используем другой порт для тестовой базы данных
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: 1111
+#      POSTGRES_DB: TestWB  # Имя тестовой базы данных может отличаться
+#
+#
+#
 
 
 
