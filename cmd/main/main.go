@@ -92,6 +92,7 @@ func main() {
 	defer natsHandler.Close()
 	//////////////////////////////////////////////////NATS//////////////////////////////////////////////
 	//port := os.Getenv("APP_PORT")
+
 	port := "8000"
 	addr := ":" + port
 	logger.Infow("starting server",

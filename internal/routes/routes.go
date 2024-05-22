@@ -18,10 +18,15 @@ func GetRouter(handlers *delivery.OrderDelivery, mw *middleware.Middleware) *mux
 func assignRoutes(router *mux.Router, handlers *delivery.OrderDelivery) {
 	router.HandleFunc("/order", handlers.AddOrder).Methods(http.MethodPost)
 	router.HandleFunc("/order/{id}", handlers.GetOrder).Methods(http.MethodGet)
+	router.HandleFunc("/", serveHTMLFile) // Добавьте этот обработчик для обслуживания HTML файла
 
 }
 
 func assignMiddleware(router *mux.Router, mw *middleware.Middleware) {
 	router.Use(mw.AccessLog)
 	//router.Use(mw.Auth)
+}
+
+func serveHTMLFile(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "../../templates/index.html")
 }
